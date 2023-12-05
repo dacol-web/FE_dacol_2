@@ -195,9 +195,8 @@ function Add () {
       }, [JSON.stringify([name, qty,price,file,desc, idClicked,err])])
 
    return <>
-      <FormContrainer 
-         onClick={()=>submit()} >         
-         <div className="w-[200vw] h-full md:w-screen">         
+      <FormContrainer onClick={()=>submit()} >         
+         <div className="w-[200vw] h-full md:w-screen lg:m-3 lg:w-full">         
             <div className={`w-full flex  text-white text-center font-medium`}>
                <p className={`${verySmallW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} ${Constants.BORDER_LEFT} border-black md:rounded-tl-md bg-white text-black`}>N</p>
                <p className={`${lartW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"name")}`}>Name</p>
@@ -287,7 +286,7 @@ function Add () {
 
                   <input 
                      id={`file[${i}]`}
-                     type="file" 
+                     type="file"
                      name={`${i}`} 
                      key={`file${i}`}
                      accept="image/png|img|jpg"

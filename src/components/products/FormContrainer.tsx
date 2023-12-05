@@ -13,7 +13,7 @@ export default function (props:{
             props.onClick(e)
             setTimeout(()=>setLoading(false),2000)
          }}className="h-[95vh] md:h-screen">
-            <div className="h-[90%] overflow-auto bg-[#e9e9e9] md:p-2 ">
+            <div className="h-[90%] overflow-auto bg-[#e9e9e9] md:m-3 md:my-4 lg:m-0">
                {props.children}   
             </div>
             <div className="h-[10%] grid place-items-center bg-[rgb(222 222 222)]">

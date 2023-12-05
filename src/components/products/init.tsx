@@ -8,13 +8,8 @@ export namespace Func {
          const
             lowerCaseProd = prodList.map(i=>({...i, name: i.name.toLowerCase()})),
             mostCloses = lowerCaseProd.
-               filter(i=>i.name.slice(0, target.length) === target).
-               sort((a,b)=>{
-                  const 
-                     lengthA = a.name.length,
-                     lengthB = b.name.length
-                  return lengthA > lengthB ? 1 : lengthA < lengthB ? -1 : 0  
-               }),
+               filter(i=>i.name.slice(0, target.length) === target)
+               ,
             includeLetter = lowerCaseProd.
                filter(i=>!mostCloses.includes(i)). // clear mostCloses value
                filter(i=>
@@ -28,7 +23,7 @@ export namespace Func {
                   !includeLetter.includes(i)
                )
             
-         return mostCloses.concat(includeLetter, otherValue)
+         return [...mostCloses, ...includeLetter,...otherValue]
       },
       makeIdPopup = (index:number) => `${Constants.PRODUCT_POPUP}[${index}]`,
       

@@ -72,13 +72,13 @@ function Table() {
       hash = window.location.hash[-1],
       pageNm = !hash ? 0 : parseInt(hash)
       
-   GET<Product[]>("/auth/product_all").
-      then(res=>setDatas(res.data.datas))
+   if (datas.length < 1) { 
+      GET<Product[]>("/auth/product_all").
+         then(res=>setDatas(res.data.datas))
+   }
    
    useEffect(() => {
-      const w = Func.productSorter(search, datas)
-
-      setDatas(datas.map((_, k)=>w[k]))
+      setDatas(Func.productSorter(search, datas))
       // open detail product
 
       if (!!idClicked[1]) {
@@ -103,11 +103,11 @@ function Table() {
                className="outline-none px-2 w-full py-1 text-lg border border-[rgb(0,0,0,0.35)] rounded-r-md" />
          </div>
          <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            {datas.map((i, k)=>
+            {datas.slice(pageNm * 20, pageNm * 20 + 20).map((i, k)=>
                <div key={k}>
                   <div className="m-2 hover:cursor-pointer" onClick={()=>setIdClicked(`${i.id}`)}>
                      <img 
-                        // src={!i.img ? "" : `http://localhost:8080/public/${i.img}`} 
+                        src={!i.img ? "" : `http://localhost:8080/public/${i.img}`} 
                         alt="gambar" 
                         className="w-full  min-h-[5rem] max-h-[7rem] bg-black rounded-t-md" />
                      <p className="text-sm p-2 bg-slate-200 rounded-b-md">{i.name}</p>
