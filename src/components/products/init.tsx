@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Product } from "../init/func"
 
 export namespace Func {
@@ -54,16 +55,30 @@ export namespace Func {
 export namespace MiniComp {
    export const  
       ProductPopup = (props:{product:Product[], index:number, name:string[], onClick:(product:Product)=>void}) => {
+         const id = Func.makeIdPopup(props.index) 
+         
          return <div 
-            className={`absolute w-full flex flex-col ${props.product.length === 0 ? "h-fit" : "h-32"} z-[1] bg-white rounded-bl-sm rounded-br-sm overflow-x-auto invisible px-2 py-1 shadow-lg`}
-            id={Func.makeIdPopup(props.index)}>
+            className={`absolute w-full flex flex-col ${props.product.length === 0 ? "h-fit" : "h-32"} z-[1] bg-white rounded-bl-sm rounded-br-sm overflow-x-auto invisible shadow-lg transition-all duration-[400]`}
+            id={id}
+            key={`propup-${props.index}`}
+            >
             
             {props.product.length === 0 ? 
                <p className="text-center font-semibold text-lg">Empty</p> :
-               Func.productSorter(props.name[props.index], props.product).map(prod=>
+               Func.productSorter(props.name[props.index], props.product).map((prod, k)=>
                   <button 
-                     className="hover:bg-black text-left text-xl border-b mb-2"
-                     onClick={()=>props.onClick(prod)}>{prod.name}</button>
+                     type="button"
+                     className="hover:bg-[rgb(0,0,0,0.25)] text-left text-lg border-b p-2"
+                     key={`popup-button-${k}`}
+                     onClick={()=>{
+                        props.onClick(prod)
+                        const elm = document.getElementById(id)!.style
+                        elm.margin = "0.5rem"
+                        elm.opacity = "0"
+                        setTimeout(()=>{
+                           elm.visibility = "hidden"
+                        }, 500)
+                     }}>{prod.name}</button>
                )
             }
          </div>

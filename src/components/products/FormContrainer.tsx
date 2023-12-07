@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { FormEvent, useContext, useState } from "react"
 import { LoadingContext } from "../App"
 
 export default function (props:{
@@ -7,13 +7,17 @@ export default function (props:{
    children:React.ReactNode}) {
       const [loading, setLoading]= useState(false)
       return <>
-         <form onSubmit={(e)=> {
-            e.preventDefault()
-            setLoading(true)
-            props.onClick(e)
-            setTimeout(()=>setLoading(false),2000)
-         }}className="h-[95vh] md:h-screen">
-            <div className="h-[90%] overflow-auto bg-[#e9e9e9] md:m-3 md:my-4 lg:m-0">
+         <form 
+            onSubmit={(e)=> {
+               e.preventDefault()
+               setLoading(true)
+               props.onClick(e)
+               setTimeout(()=>setLoading(false),2000)
+            }}
+            className="h-[95vh] md:h-screen"
+            autoComplete="off"
+            >
+            <div className="h-[90%] overflow-auto bg-[#e9e9e9] md:m-3 md:my-4 lg:m-3">
                {props.children}   
             </div>
             <div className="h-[10%] grid place-items-center bg-[rgb(222 222 222)]">

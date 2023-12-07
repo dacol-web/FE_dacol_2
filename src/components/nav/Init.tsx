@@ -19,7 +19,7 @@ function closeMenu() {
 
 export default function (props: {children:React.ReactNode, title:string, content:React.ReactNode}) {
    return <div className="lg:flex">
-      <nav className="w-screen transition-all lg:w-3/12 lg:flex lg:flex-col" id="navbar">
+      <nav className="w-screen transition-all lg:w-[20%] lg:flex lg:flex-col" id="navbar">
          <div className="flex bg-black p-3 justify-between items-center">
             <h1 className="text-white text-lg font-medium">
                {props.title}
@@ -55,7 +55,7 @@ export default function (props: {children:React.ReactNode, title:string, content
          </menu>
       </nav>
 
-      <div className="overflow-auto bg-gray-200 form-container">
+      <div className="overflow-auto bg-gray-200 form-container w-full">
          {props.content}
       </div>
    </div> 

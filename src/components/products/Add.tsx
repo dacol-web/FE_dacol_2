@@ -196,9 +196,12 @@ function Add () {
 
    return <>
       <FormContrainer onClick={()=>submit()} >         
-         <div className="w-[200vw] h-full md:w-screen lg:m-3 lg:w-full">         
+         <div className="w-[200vw] h-full md:w-screen lg:w-full">         
             <div className={`w-full flex  text-white text-center font-medium`}>
-               <p className={`${verySmallW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} ${Constants.BORDER_LEFT} border-black md:rounded-tl-md bg-white text-black`}>N</p>
+               <p className={`
+                  ${verySmallW} bg-white text-black border-black 
+                  ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} ${Constants.BORDER_LEFT} 
+                  md:rounded-tl-md md:w-1/5`}>N</p>
                <p className={`${lartW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"name")}`}>Name</p>
                <p className={`${mediumW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"qty")}`}>Quantity</p>
                <p className={`${mediumW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"price")}`}>Price</p>
@@ -212,7 +215,8 @@ function Add () {
                   <p 
                      className={`
                         ${verySmallW} px-1
-                        ${i + 1 === length && "md:rounded-bl-md"} grid items-center bg-black text-white `}>{i + 1}</p>
+                        grid items-center bg-black text-white 
+                        ${i + 1 === length && "md:rounded-bl-md"} md:w-1/5`}>{i + 1}</p>
          
                   {/* Name */}
                   <div className={`relative border-b-2 border-r-2 border-black  ${lartW} text-black`}>
@@ -223,6 +227,7 @@ function Add () {
                         onKeyDown={e=>Script.onEnter(idClicked[1], e)}
 
                         // class property
+                        autoComplete="off"
                         type="text" 
                         key={"name"+i}
                         id={`input-name[${i}]`}
@@ -255,6 +260,7 @@ function Add () {
                   className={`relative ${mediumW} border-b-2 border-r-2 border-black`} 
                   onClick={()=>setIdClicked(`price[${i}]`)}>
                   <input 
+                     autoComplete="off"
                      type="number" 
                      name={`${i}`} 
                      key={`price${i}`}

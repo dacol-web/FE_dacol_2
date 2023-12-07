@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
-import {API, Datas, Product, addInput, getUser, headerUser, sendJSON} from '../init/func';
+import {API, Datas, GET, Product, addInput, getUser, headerUser, sendJSON} from '../init/func';
 import FormContrainer from "./FormContrainer";
 import { makeArray } from "../init/func";
 import NavbarMain from "../nav/NavbarMain";
@@ -8,7 +8,7 @@ import { Constants, Func, MiniComp, Types } from "./init";
 const 
    formS = "w-[100vw] flex md:w-full",
    outlineN = "outline-none",
-   padding = "px-2x",
+   padding = "p-2",
    borderI = "border-r-2 border-b-2 border-black",
    smallW = "w-[10%]",
    mediumW = "w-[40%]",
@@ -27,14 +27,15 @@ export default function () {
       // form data 
       [productList, setProductList] = useReducer(reduce<{name:string, id?:number}>,[]),
       [qty, setQty] = useReducer(reduce<number>,[]),
+      [disable, setDisable] = useState(false),
 
       // 
-      [prod, setProd] = useState<Product[]>([]),
-      [length, setLength] = useState(5),
+      [prod, setProd] = useState<Product[]>(),
+      [length, setLength] = useState(10),
       [idClicked, setIdClicked] = useState<[string, string]>(["", ""]),
 
       onEnter = (e:React.KeyboardEvent<HTMLInputElement>, index:number) => {
-         const topProd = Func.productSorter(productList[index]?.name, prod)[0]
+         const topProd = Func.productSorter(productList[index]?.name, prod!)[0]
          if (topProd && e.code === "Enter") {
             setProductList({index:index, value: {name:topProd.name, id:topProd.id}})
             setIdClicked([idClicked[1], ""])
@@ -52,7 +53,7 @@ export default function () {
                }, []),
             provit = productArr.
                reduce((prev, i)=> 
-                  prod.find(j=>j.id === i.id)!.price * i.qty + prev
+                  prod!.find(j=>j.id === i.id)!.price * i.qty + prev
                , 0 ),
             date = new Date()
 
@@ -66,9 +67,10 @@ export default function () {
       }
 
 
-   API
-      .get<Datas<Product[]>>("/auth/product", {headers: {...headerUser()}})
-      .then(res=>setProd(res.data.datas))
+   if (prod == undefined) {
+      GET<Product[]>("/auth/product_all")
+         .then(res=>setProd(res.data.datas))
+   }
 
    useEffect(()=>{
       addInput(setLength, length, productList, qty)
@@ -79,29 +81,34 @@ export default function () {
    return <>
       <NavbarMain title="Selling Mode">
          <FormContrainer onClick={submit}>
-            
-            <div className="h-full" id="table">         
-               <div className={`${formS} bg-black text-white text-center font-medium`}>
-                  <p className={`${smallW} ${padding} bg-white text-black`}>N</p>
-                  <p className={`${larghW} ${padding}`}>Name</p>
-                  <p className={`${mediumW} ${padding}`}>Quantity</p>
+            <div className="h-full " id="table">         
+               <div className={`${formS} text-white text-center font-medium`}>
+                  <p className={`${smallW} ${padding} bg-white text-black md:rounded-tl-md`}>N</p>
+                  <p className={`${larghW} ${padding} bg-black`}>Name</p>
+                  <p className={`${mediumW} ${padding} bg-black md:rounded-tr-md`}>Quantity</p>
                </div>
                
                {makeArray(length).map(i=>
                   <div className={`${formS} text-center`}>
                      {/* Number */}
-                     <p className={`${smallW} ${padding} border-b-2 border-black bg-black text-white`}>{i + 1}</p>
+                     <p 
+                        className={`
+                           ${smallW} ${padding} 
+                           ${i === length -1 && "md:rounded-bl-md"} 
+                           border-b-2 border-black bg-black text-white`}
+                     >{i + 1}</p>
             
                      {/* Name */}
                      <div className={`relative ${borderI} ${larghW} text-black`}>
                         <input
                            // event
-                           onChange={e=>
+                           onChange={e=>{
                               setProductList({
                                  index:i, 
-                                 value:{name:e.target.value, id:prod.find(i=>i.name === e.target.value)?.id}
-                              }
-                           )}
+                                 value:{name:e.target.value, id:prod!.find(i=>i.name === e.target.value)?.id}
+                              })
+                              setDisable(qty[i] !== undefined)
+                           }}
                            onClick={()=>setIdClicked([idClicked[1], `name[${i}]`])}
                            onKeyDown={e=>onEnter(e, i)}
 
@@ -111,7 +118,10 @@ export default function () {
                            id={`input-name[${i}]`}
 
                            value={productList[i]?.name}
-                           className={`${outlineN} ${padding} ${(!productList[i]?.id && productList[i]?.name) && "border-red-500"} text-left w-full bg-white`} />
+                           className={`
+                              ${outlineN} ${padding} 
+                              ${(!!productList[i]?.id && productList[i]?.name) && "border-red-500"}                           
+                              text-left w-full bg-white`} />
 
                         <MiniComp.ProductPopup 
                            index={i} 
@@ -119,11 +129,11 @@ export default function () {
                            onClick={(prod)=>
                               setProductList({
                                  index:i, 
-                                 value:{name: prod.name, id:prod.id}
+                                 value:{name: prod!.name, id:prod!.id}
                               })
                            } 
                            key={i}
-                           product={prod}/>
+                           product={!prod ? [] : prod}/>
                      </div>
             
                      {/* qty */}
@@ -132,9 +142,14 @@ export default function () {
                         key={"qty"+i}
                         id={`input-qty[${i}]`}
                         value={qty[i]}
+
                         onClick={()=>setIdClicked([idClicked[1], `qty[${i}]`])}
                         onChange={(e)=>setQty({index:i, value:parseInt(e.target.value)})}
-                        className={`${mediumW} ${borderI} ${outlineN} ${padding} ${(productList[i]?.name && !qty[i]) && "border-red-500"} bg-white`} />
+                        className={`
+                           ${mediumW} ${borderI} ${outlineN} ${padding} 
+                           ${(!!productList[i]?.name && !qty[i]) && "bg-red-200"} 
+                           ${i === length -1 && "md:rounded-br-md"} 
+                           bg-white`} />
                   </div>   
                )}
             </div>

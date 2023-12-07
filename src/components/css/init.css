@@ -3,7 +3,8 @@
 }
 
 @media (min-height: 500px) {
-   .form-container{
+   .form-container {
       height: 100vh;
    }
 }
+

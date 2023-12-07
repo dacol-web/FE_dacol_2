@@ -16,9 +16,9 @@ namespace Reducer {
 }
 
 const 
-   verySmallW = "w-[10%]",
-   mediumW = "w-[15%]",
-   lartW = "w-[20%]",
+   verySmallW = "w-[10%] md:w-[8%] lg:w-[7%]",
+   mediumW = "w-[15%] md:w-[18%]",
+   lartW = "w-[20%] md:w-[23%]",
    padding = "px-2 py-1"
 
 function Update () {
@@ -95,7 +95,7 @@ function Update () {
          }
       }
 
-      GET<Product[]>("/auth/product").then(e=>setProd(e.data.datas))
+      GET<Product[]>("/auth/product_all").then(e=>setProd(e.data.datas))
 
       useEffect(()=>{
          addInput(setLength, length, name, qty, price)
@@ -105,9 +105,9 @@ function Update () {
 
    return <>
       <FormContrainer onClick={submit}>
-         <div className="w-[200vw] h-full md:w-screen">         
+         <div className="w-[200vw] h-full md:w-screen lg:w-full">         
             <div className={`w-full flex  text-white text-center font-medium`}>
-               <p className={`${verySmallW} ${padding} bg-white text-black md:rounded-tl-md`}>N</p>
+               <p className={`${verySmallW} ${padding} bg-white text-black md:rounded-tl-md `}>N</p>
                <p className={`${lartW} ${padding} bg-black`}>Name</p>
                <p className={`${mediumW} ${padding} bg-black`}>Quantity</p>
                <p className={`${mediumW} ${padding} bg-black`}>Price</p>
@@ -118,7 +118,7 @@ function Update () {
             {makeArray(length).map(i=>
                <div className={`w-full flex text-center`}>
                   {/* Number */}
-                  <p className={`${verySmallW} ${padding} ${HelperCss.gridC} bg-black text-white ${i + 1 === length && "md:rounded-bl-md"}`}>{i + 1}</p>
+                  <p className={`${verySmallW} ${padding} ${HelperCss.gridC} bg-black text-white ${i + 1 === length && "md:rounded-bl-md"} lg:1/6`}>{i + 1}</p>
          
                   {/* Name */}
                   <div className={`relative ${lartW} text-black`}>
