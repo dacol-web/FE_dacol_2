@@ -98,8 +98,8 @@ export namespace Constants  {
       BORDER_LEFT = "md:border-l-2 border-l-white",
       BORDER_RIGTH = "md:border-r-2 border-r-white",
       BORDER_BOTTOM = "md:border-b-2 border-b-white",
-      Vs_INPUT = "w-[10%]",
-      M_INPUT = "w-[15%]",
-      L_INPUT = "w-[20%]",
+      Vs_INPUT = "w-[10%] lg:w-[8%]",
+      M_INPUT = "w-[15%] md:w-[18%] lg:w-[20%]",
+      L_INPUT = "w-[20%] md:w-[23%] lg:w-[25%]",
       PADDING_INPUT = "px-2 py-1"
 }

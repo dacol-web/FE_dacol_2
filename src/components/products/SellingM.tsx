@@ -10,9 +10,9 @@ const
    outlineN = "outline-none",
    padding = "p-2",
    borderI = "border-r-2 border-b-2 border-black",
-   smallW = "w-[10%]",
+   smallW = "w-[10%] lg:w-[8%]",
    mediumW = "w-[40%]",
-   larghW = "w-[50%]"
+   larghW = "w-[50%] lg:w-[52%]"
 
 function reduce<T>(state:T[], props:{value:T, index:number}) {
    return props.index +1 >= state.length ? 
@@ -64,6 +64,8 @@ export default function () {
                provit,
                date:`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
             })
+
+         return true
       }
 
 
@@ -83,7 +85,7 @@ export default function () {
          <FormContrainer onClick={submit}>
             <div className="h-full " id="table">         
                <div className={`${formS} text-white text-center font-medium`}>
-                  <p className={`${smallW} ${padding} bg-white text-black md:rounded-tl-md`}>N</p>
+                  <p className={`${smallW} ${padding} break-words bg-white text-black md:rounded-tl-md`}>N</p>
                   <p className={`${larghW} ${padding} bg-black`}>Name</p>
                   <p className={`${mediumW} ${padding} bg-black md:rounded-tr-md`}>Quantity</p>
                </div>
@@ -93,7 +95,7 @@ export default function () {
                      {/* Number */}
                      <p 
                         className={`
-                           ${smallW} ${padding} 
+                           ${smallW} ${padding} break-words 
                            ${i === length -1 && "md:rounded-bl-md"} 
                            border-b-2 border-black bg-black text-white`}
                      >{i + 1}</p>
@@ -103,7 +105,7 @@ export default function () {
                         <input
                            // event
                            onChange={e=>{
-                              setProductList({
+                              setProductList({  
                                  index:i, 
                                  value:{name:e.target.value, id:prod!.find(i=>i.name === e.target.value)?.id}
                               })

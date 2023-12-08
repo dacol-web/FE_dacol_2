@@ -1,8 +1,16 @@
 import { FormEvent, useContext, useState } from "react"
 import { LoadingContext } from "../App"
 
+function showDoneMsg() {
+   const elm = document.getElementById("submit-btn")!
+   elm.innerHTML = "Done"
+   setTimeout(() => {
+      elm.innerHTML = "Save"
+   }, 2000);
+}
+
 export default function (props:{
-   onClick:(event: React.FormEvent<HTMLFormElement>) => void,
+   onClick:(event: React.FormEvent<HTMLFormElement>) => boolean,
    childrenChecking?:boolean, 
    children:React.ReactNode}) {
       const [loading, setLoading]= useState(false)
@@ -11,8 +19,10 @@ export default function (props:{
             onSubmit={(e)=> {
                e.preventDefault()
                setLoading(true)
-               props.onClick(e)
+               const pass = props.onClick(e)
                setTimeout(()=>setLoading(false),2000)
+               pass && showDoneMsg()
+               
             }}
             className="h-[95vh] md:h-screen"
             autoComplete="off"
@@ -23,7 +33,8 @@ export default function (props:{
             <div className="h-[10%] grid place-items-center bg-[rgb(222 222 222)]">
                <button 
                   className="py-2 px-3 rounded-md bg-green-600 text-white w-4/5 font-semibold text-xl" 
-                  disabled={props.childrenChecking}>
+                  disabled={props.childrenChecking}
+                  id="submit-btn">
                   {loading ? 
                      <span>loading</span> : 
                      <span>Save</span>

@@ -114,11 +114,6 @@ function Add () {
       // capture index where value is error
       [err, setErr] = useState<Error>({}),
 
-      // style
-      verySmallW = "w-[10%]",
-      mediumW = "w-[15%]",
-      lartW = "w-[20%]",
-
       create = (imgToken:string[]) =>
          makeArray(length).reduce((prev, i)=>{
             const 
@@ -171,16 +166,16 @@ function Add () {
             setErr(err.response.data.errors)
          })
 
-         if (Object.keys(err).length < 1 && file.length > 0) {
-            uploadFile(imgToken)        
-         }
+         const pass = Object.keys(err).length < 1
 
+         if (pass && file.length > 0)  uploadFile(imgToken)          
+         return pass
       },
 
       sliceName = (name:string) => {
          if (name.length > 10) {
             const arrName = name.split(".")
-            return `${arrName[1].slice(0, 5)}<b>..<b>.${arrName[-1]}`
+            return <>{arrName[0].slice(0, 5)}..<b>.</b>{arrName.slice(-1)[0]}</>
          }
          return name
       }
@@ -199,14 +194,14 @@ function Add () {
          <div className="w-[200vw] h-full md:w-screen lg:w-full">         
             <div className={`w-full flex  text-white text-center font-medium`}>
                <p className={`
-                  ${verySmallW} bg-white text-black border-black 
-                  ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} ${Constants.BORDER_LEFT} 
-                  md:rounded-tl-md md:w-1/5`}>N</p>
-               <p className={`${lartW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"name")}`}>Name</p>
-               <p className={`${mediumW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"qty")}`}>Quantity</p>
-               <p className={`${mediumW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"price")}`}>Price</p>
-               <p className={`${lartW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"file")}`}>File</p>
-               <p className={`${lartW} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black bg-black md:rounded-tr-md`}>Desc</p>
+                  bg-white text-black border-black 
+                  ${Constants.Vs_INPUT} break_word  break_word  ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} ${Constants.BORDER_LEFT} 
+                  md:rounded-tl-md`}>N</p>
+               <p className={`${Constants.L_INPUT} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"name")}`}>Name</p>
+               <p className={`${Constants.M_INPUT} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"qty")}`}>Quantity</p>
+               <p className={`${Constants.M_INPUT} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"price")}`}>Price</p>
+               <p className={`${Constants.L_INPUT} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black ${Script.rowHaveError(err,"file")}`}>File</p>
+               <p className={`${Constants.L_INPUT} ${Constants.PADDING_INPUT} ${Constants.INPUT_BORDER} border-black bg-black md:rounded-tr-md`}>Desc</p>
             </div>
             
             {makeArray(length).map(i=>
@@ -214,12 +209,12 @@ function Add () {
                   {/* Number */}
                   <p 
                      className={`
-                        ${verySmallW} px-1
+                        ${Constants.Vs_INPUT} break_word  break_word  px-1
                         grid items-center bg-black text-white 
-                        ${i + 1 === length && "md:rounded-bl-md"} md:w-1/5`}>{i + 1}</p>
+                        ${i + 1 === length && "md:rounded-bl-md"}`}>{i + 1}</p>
          
                   {/* Name */}
-                  <div className={`relative border-b-2 border-r-2 border-black  ${lartW} text-black`}>
+                  <div className={`relative border-b-2 border-r-2 border-black  ${Constants.L_INPUT} text-black`}>
                      <input
                         // event
                         onChange={setName}
@@ -240,7 +235,7 @@ function Add () {
          
                   {/* Qty */}
                <div  
-                  className={`relative ${mediumW} border-b-2 border-r-2 border-black `} 
+                  className={`relative ${Constants.M_INPUT} border-b-2 border-r-2 border-black `} 
                   onClick={()=>setIdClicked(`qty[${i}]`)}>
                   <input 
                      type="number"
@@ -257,7 +252,7 @@ function Add () {
 
                {/* Price */}
                <div 
-                  className={`relative ${mediumW} border-b-2 border-r-2 border-black`} 
+                  className={`relative ${Constants.M_INPUT} border-b-2 border-r-2 border-black`} 
                   onClick={()=>setIdClicked(`price[${i}]`)}>
                   <input 
                      autoComplete="off"
@@ -275,7 +270,7 @@ function Add () {
                {/* file */}
                <div 
                   id={`input-file[${i}]`} 
-                  className={`${lartW} ${Constants.INPUT_BORDER} cursor-pointer border-b-2 border-r-2 border-black flex justify-center items-center relative ${Script.borderErr(err[i]?.["file"])}`} 
+                  className={`${Constants.L_INPUT} ${Constants.INPUT_BORDER} cursor-pointer border-b-2 border-r-2 border-black flex justify-center items-center relative ${Script.borderErr(err[i]?.["file"])}`} 
                   onClick={()=>{
                      document.getElementById(`file[${i}]`)!.click()
                      setIdClicked(`file[${i}]`)
@@ -306,7 +301,7 @@ function Add () {
                   key={`desc${i}`}
                   value={desc[i] ?? ""}
                   id={`input-desc[${i}]`}
-                  className={`${lartW} border-r-2 border-b-2 border-black ${i + 1 === length && "md:rounded-br-md"} bg-white px-1 outline-black text-left resize-none`} 
+                  className={`${Constants.L_INPUT} border-r-2 border-b-2 border-black ${i + 1 === length && "md:rounded-br-md"} bg-white px-1 outline-black text-left resize-none`} 
                   onFocus={()=>setIdClicked(`desc[${i}]`)}
                   onChange={setDesc}
                   onKeyDown={e=>Script.onEnter(idClicked[1], e)} />

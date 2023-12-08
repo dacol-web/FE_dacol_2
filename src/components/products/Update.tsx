@@ -15,11 +15,7 @@ namespace Reducer {
       } 
 }
 
-const 
-   verySmallW = "w-[10%] md:w-[8%] lg:w-[7%]",
-   mediumW = "w-[15%] md:w-[18%]",
-   lartW = "w-[20%] md:w-[23%]",
-   padding = "px-2 py-1"
+const padding = "px-2 py-1"
 
 function Update () {
 
@@ -87,6 +83,7 @@ function Update () {
             create()
          )
          uploadFile()
+         return true
       },
       onEnter = (index:number,e:React.KeyboardEvent<HTMLInputElement>) => {
          const val = Func.productSorter(name[index], prod)[0]
@@ -107,21 +104,21 @@ function Update () {
       <FormContrainer onClick={submit}>
          <div className="w-[200vw] h-full md:w-screen lg:w-full">         
             <div className={`w-full flex  text-white text-center font-medium`}>
-               <p className={`${verySmallW} ${padding} bg-white text-black md:rounded-tl-md `}>N</p>
-               <p className={`${lartW} ${padding} bg-black`}>Name</p>
-               <p className={`${mediumW} ${padding} bg-black`}>Quantity</p>
-               <p className={`${mediumW} ${padding} bg-black`}>Price</p>
-               <p className={`${lartW} ${padding} bg-black`}>File</p>
-               <p className={`${lartW} ${padding} bg-black md:rounded-tr-md`}>Desc</p>
+               <p className={`${Constants.Vs_INPUT} break_word  break_word  ${padding} bg-white text-black md:rounded-tl-md `}>N</p>
+               <p className={`${Constants.L_INPUT} ${padding} bg-black`}>Name</p>
+               <p className={`${Constants.M_INPUT} ${padding} bg-black`}>Quantity</p>
+               <p className={`${Constants.M_INPUT} ${padding} bg-black`}>Price</p>
+               <p className={`${Constants.L_INPUT} ${padding} bg-black`}>File</p>
+               <p className={`${Constants.L_INPUT} ${padding} bg-black md:rounded-tr-md`}>Desc</p>
             </div>
             
             {makeArray(length).map(i=>
                <div className={`w-full flex text-center`}>
                   {/* Number */}
-                  <p className={`${verySmallW} ${padding} ${HelperCss.gridC} bg-black text-white ${i + 1 === length && "md:rounded-bl-md"} lg:1/6`}>{i + 1}</p>
+                  <p className={`${Constants.Vs_INPUT} break_word  break_word  ${padding} ${HelperCss.gridC} bg-black text-white ${i + 1 === length && "md:rounded-bl-md"} lg:1/6`}>{i + 1}</p>
          
                   {/* Name */}
-                  <div className={`relative ${lartW} text-black`}>
+                  <div className={`relative ${Constants.L_INPUT} text-black`}>
                      <input
                         // event
                         onChange={e=>setName({key:i, setter:e.target.value})}
@@ -139,7 +136,7 @@ function Update () {
                   </div>
          
                   {/* Qty */}
-               <div className={`relative ${mediumW}`}>
+               <div className={`relative ${Constants.M_INPUT}`}>
                   <input 
                      type="number"
                      name={`${i}`} 
@@ -153,7 +150,7 @@ function Update () {
                </div>
 
                {/* Price */}
-               <div className={`relative ${mediumW}`}>
+               <div className={`relative ${Constants.M_INPUT}`}>
                   <input 
                      type="number" 
                      name={`${i}`} 
@@ -168,7 +165,7 @@ function Update () {
 
                {/* file */}
                <label 
-                  className={`${lartW} flex justify-center items-center ${Constants.INPUT_BORDER} relative bg-white`} 
+                  className={`${Constants.L_INPUT} flex justify-center items-center ${Constants.INPUT_BORDER} relative bg-white`} 
                   onClick={()=>setIdClicked([idClicked[1], ""])}>
                   <>
                      <span className={ICON}>upload</span>
@@ -197,7 +194,7 @@ function Update () {
                   key={`desc${i}`}
                   value={desc[i]}
                   id={`input-desc[${i}]`}
-                  className={`${lartW} ${Constants.INPUT_BORDER} outline-black text-left resize-none bg-white ${i + 1 === length && "md:rounded-br-md"}`} 
+                  className={`${Constants.L_INPUT} ${Constants.INPUT_BORDER} outline-black text-left resize-none bg-white ${i + 1 === length && "md:rounded-br-md"}`} 
 
                   onClick={()=>setIdClicked([idClicked[1], `desc[${i}]`])}
                   onChange={(e)=>setDesc({key:i, setter:e.target.value})} />
