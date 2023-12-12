@@ -1,4 +1,5 @@
 import axios from "axios"
+import getenv from "getenv"
 
 export const 
    USERKEY:Readonly<string> = "token",
@@ -33,7 +34,7 @@ export type Error<T> = {errors:T}
 export type LoadingCtx = [boolean, React.Dispatch<React.SetStateAction<boolean>>]
 
 export const 
-   API = axios.create({baseURL:"http://localhost:8080"}),
+   API = axios.create({baseURL:getenv("API_BASE")}),
 
    getUser = () => localStorage.getItem(USERKEY),
    parseToken = () => {
