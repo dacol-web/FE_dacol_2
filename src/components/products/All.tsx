@@ -1,5 +1,7 @@
 import { useEffect, useReducer, useState } from "react"
-import {  API, GET, HelperCss, ICON, Month, Product, Selling, makeArray } from "../init/func"
+import {   GET, HelperCss, ICON, Month, Product, Selling, makeArray } from "../init/func"
+import getenv from "getenv";
+
 
 import Chart from "chart.js/auto"
 import { CategoryScale } from "chart.js";
@@ -7,10 +9,8 @@ import { Line } from "react-chartjs-2";
 
 import NavbarMain from "../nav/NavbarMain"
 import { Func } from "./init"
-import NavbarProd from "../nav/NavbarProd";
 import PageNav from "../init/PageNav";
 
-type FilterMode = "Name" | "Highest" | "Lowest"
 
 const layer = "p-2 rounded-md bg-white mt-4 "
 
@@ -107,7 +107,11 @@ function Table() {
                <div key={k}>
                   <div className="m-2 hover:cursor-pointer" onClick={()=>setIdClicked(`${i.id}`)}>
                      <img 
+<<<<<<< HEAD
                         src={!i.img ? "" : `${process.env.API}/public/${i.img}`} 
+=======
+                        src={!i.img ? "" : `${getenv("API_BASE")}/public/${i.img}`} 
+>>>>>>> 25f6eb5e10e3d562b5b8d328ee721afab8cebf1a
                         alt="gambar" 
                         className="w-full  min-h-[5rem] max-h-[7rem] bg-black rounded-t-md" />
                      <p className="text-sm p-2 bg-slate-200 rounded-b-md">{i.name}</p>
