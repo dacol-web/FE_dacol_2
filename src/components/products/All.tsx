@@ -107,7 +107,7 @@ function Table() {
                <div key={k}>
                   <div className="m-2 hover:cursor-pointer" onClick={()=>setIdClicked(`${i.id}`)}>
                      <img 
-                        src={!i.img ? "" : `${process.env.API}/public/${i.img}`} 
+                        src={!i.img ? "" : `${process.env.REACT_APP_API_BASE}/public/${i.img}`} 
                         alt="gambar" 
                         className="w-full  min-h-[5rem] max-h-[7rem] bg-black rounded-t-md" />
                      <p className="text-sm p-2 bg-slate-200 rounded-b-md">{i.name}</p>
