@@ -74,7 +74,7 @@ function Table() {
       
    if (datas.length < 1) { 
       GET<Product[]>("/auth/product_all").
-         then(({data})=>setDatas(data.datas ?? []))
+         then(({data})=>setDatas(data.datas == undefined ? [] : data.datas))
    }
    
    useEffect(() => {
