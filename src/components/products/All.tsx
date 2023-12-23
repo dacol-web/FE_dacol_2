@@ -20,7 +20,7 @@ function Grap() {
    const [data, setData] = useState<Selling[]>([])
 
    GET<Selling[]>("/auth/selling").
-      then(res=>setData(res.data.datas))
+      then(res=>setData(res.data.datas ?? []))
 
   
    const 
