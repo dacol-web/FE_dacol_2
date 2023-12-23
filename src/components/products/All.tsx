@@ -20,10 +20,7 @@ function Grap() {
    const [data, setData] = useState<Selling[]>([])
 
    GET<Selling[]>("/auth/selling").
-      then(({data})=>{
-         const datas = data.datas
-         setData(!datas ? [] : datas)
-      })
+      then(({data})=>setData(data.datas ?? []))
 
   
    const 
@@ -72,12 +69,12 @@ function Table() {
       [datas, setDatas] = useState([] as Product[]),
       [idClicked, setIdClicked] = useReducer(reducer, ["", ""]),
 
-      hash = window.location.hash[-1],
+      hash = window.location.hash.slice(-1)[0],
       pageNm = !hash ? 0 : parseInt(hash)
       
    if (datas.length < 1) { 
       GET<Product[]>("/auth/product_all").
-         then(res=>setDatas(res.data.datas))
+         then(({data})=>setDatas(data.datas ?? []))
    }
    
    useEffect(() => {
