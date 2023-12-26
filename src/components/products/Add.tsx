@@ -127,6 +127,11 @@ function Add () {
                   id: i
                } 
             
+            /**
+             * checking if all data undefined
+             * if id === "key" this will skip
+             * if not is gone check undefined or not
+             */
             if (
                Object.
                   entries(productForm).
@@ -160,7 +165,7 @@ function Add () {
          const imgToken = makeArray(length).map(i=>String(new Date().getTime() + Math.random() * i))
          sendJSON(
             "/auth/product_add", 
-            {data: create(imgToken)}
+            {data: JSON.stringify(create(imgToken))}
          )
          .catch((err)=>{
             setErr(err.response.data.errors)
