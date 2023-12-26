@@ -26,6 +26,7 @@
   },
   "scripts": {
     "start": "serve build -s -n -L -p $PORT",
+    "local": "react-scripts start",
     "build": "CI=false react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject"

@@ -80,7 +80,7 @@ function Update () {
       submit = () => {
          sendJSON(
             "/auth/product_update", 
-            create()
+            {data:create()}
          )
          uploadFile()
          return true

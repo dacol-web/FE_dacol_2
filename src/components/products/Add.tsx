@@ -160,7 +160,7 @@ function Add () {
          const imgToken = makeArray(length).map(i=>String(new Date().getTime() + Math.random() * i))
          sendJSON(
             "/auth/product_add", 
-            create(imgToken)
+            {data: create(imgToken)}
          )
          .catch((err)=>{
             setErr(err.response.data.errors)
