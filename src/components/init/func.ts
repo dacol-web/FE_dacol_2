@@ -57,7 +57,7 @@ export const
       ) && func(length + 1)
    },
 
-   sendJSON = function<T extends {} | []>(url:string, data:object) {
+   sendJSON = function<T extends {} | []>(url:string, data:any) {
       return API.post<T>(url, data, {headers:{"Content-Type":"application/json", ...headerUser()}})
    },
 
@@ -66,6 +66,28 @@ export const
    ,
    GET = function<Return,T extends {} = {}>(url:string, header?:T) { 
       return API.get<Datas<Return>>(url, {headers:{...headerUser(), ...header}}) 
+   },
+   makeToken = (length : number) => 
+      makeArray(length).map(i=>String(new Date().getTime() + Math.random() * i)),
+
+   uploadFile = (file:File[], imgToken:string[]) => {
+      const formData = file.reduce((prev, i, k)=>{
+         prev.append("img", i, imgToken[k] + i.name)
+         return prev
+      }, new FormData())
+      
+
+      API.post(
+         // url
+         "/auth/upload/product",
+         // data
+         formData,
+         // config
+         {headers:{
+            ...headerUser(),
+            "Content-Type": "multipart/form-data"
+         }}
+      )
    }
 
 

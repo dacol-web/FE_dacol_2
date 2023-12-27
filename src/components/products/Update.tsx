@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react"
-import { API, sendJSON, headerUser, addInput, makeArray, ICON, GET, Product, HelperCss } from "../init/func"
+import { API, sendJSON, headerUser, addInput, makeArray, ICON, GET, Product, HelperCss, uploadFile, makeToken } from "../init/func"
 import NavbarMain from "../nav/NavbarMain"
 import FormContrainer from "./FormContrainer"
 import { Constants, Func, MiniComp } from "./init"
@@ -35,7 +35,7 @@ function Update () {
       [idClicked, setIdClicked] = useState<[string, string]>(["", ""]),
 
 
-      create = () =>
+      create = (imgToken:string[]) =>
          makeArray(length).map(i=>{
             const fileByIndex = file[i]
 
@@ -46,7 +46,7 @@ function Update () {
                desc:desc[i],
                img:  !fileByIndex ? null :
                   typeof fileByIndex === "string" ? fileByIndex : 
-                  JSON.stringify({name : fileByIndex.name, size: fileByIndex.size})
+                  JSON.stringify({name : imgToken[i] + fileByIndex.name, size: fileByIndex.size})
             }
          }),
       setAllForm = (key:number,product:Product) => {
@@ -57,32 +57,14 @@ function Update () {
          setFile({key: key, setter:product.img!})
       },
 
-      uploadFile = () => {
-         const filter = file.filter(i=>typeof i !== "string") as File[]
-         const formData = filter.reduce((formData, i,k)=>{
-            formData.append(`file-${k}`, i as File, i.name)
-            return formData
-         }, new FormData())
-
-         API.post(
-            // url
-            "/auth/upload/product",
-            // data
-            formData,
-            // config
-            {headers:{
-               ...headerUser(),
-               "Content-Type": "multipart/form-data"
-            }}
-         )
-      },
-
       submit = () => {
+         const imgToken = makeToken(length)
+         
          sendJSON(
             "/auth/product_update", 
-            {data:JSON.stringify(create())}
-         )
-         uploadFile()
+            create(imgToken)
+         ).then(()=>uploadFile(file.filter(i=>typeof i !== "string") as File[], imgToken))
+         
          return true
       },
       onEnter = (index:number,e:React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from "react"
-import { API, sendJSON, headerUser, addInput, makeArray, ICON, Product } from "../init/func"
+import { API, sendJSON, headerUser, addInput, makeArray, ICON, Product, makeToken, uploadFile } from "../init/func"
 import NavbarMain from "../nav/NavbarMain"
 import FormContrainer from "./FormContrainer"
 import { Constants } from "./init"
@@ -141,40 +141,21 @@ function Add () {
             return [...prev, productForm] 
          },[] as Product[]),
 
-      uploadFile = (imgToken:string[]) => {
-         const formData = file.reduce((prev, i, k)=>{
-            prev.append("img", i, imgToken[k] + i.name)
-            return prev
-         }, new FormData())
-         
-
-         API.post(
-            // url
-            "/auth/upload/product",
-            // data
-            formData,
-            // config
-            {headers:{
-               ...headerUser(),
-               "Content-Type": "multipart/form-data"
-            }}
-         )
-      },
 
       submit = () => {
-         const imgToken = makeArray(length).map(i=>String(new Date().getTime() + Math.random() * i))
+         const imgToken = makeToken(length)
          sendJSON(
             "/auth/product_add", 
-            {data: JSON.stringify(create(imgToken))}
+            create(imgToken)
          )
-         .catch((err)=>{
+         .then(()=>
+            file.length > 0 && uploadFile(file,imgToken)
+         )
+         .catch((err)=>
             setErr(err.response.data.errors)
-         })
+         )
 
-         const pass = Object.keys(err).length < 1
-
-         if (pass && file.length > 0)  uploadFile(imgToken)          
-         return pass
+         return Object.keys(err).length < 1
       },
 
       sliceName = (name:string) => {
