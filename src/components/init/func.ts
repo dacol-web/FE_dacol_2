@@ -33,7 +33,7 @@ export type Error<T> = {errors:T}
 export type LoadingCtx = [boolean, React.Dispatch<React.SetStateAction<boolean>>]
 
 export const 
-   API = axios.create({baseURL:"http://bedacol-2-production.up.railway.app"}),
+   API = axios.create({baseURL:"bedacol-2-production.up.railway.app"}),
 
    getUser = () => localStorage.getItem(USERKEY),
    parseToken = () => {
