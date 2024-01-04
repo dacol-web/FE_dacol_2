@@ -33,7 +33,7 @@ export type Error<T> = {errors:T}
 export type LoadingCtx = [boolean, React.Dispatch<React.SetStateAction<boolean>>]
 
 export const 
-   API = axios.create({baseURL:"bedacol-2-production.up.railway.app"}),
+   API = axios.create({baseURL:"https://bedacol-2-production.up.railway.app"}),
 
    getUser = () => localStorage.getItem(USERKEY),
    parseToken = () => {
@@ -58,7 +58,7 @@ export const
    },
 
    sendJSON = function<T extends {} | []>(url:string, data:any) {
-      return API.post<T>(url, data, {headers:{"Content-Type":"application/json", ...headerUser()}})
+      return API.post<T>(url, data, {headers:{setContentType:"application/json", ...headerUser()}})
    },
 
    makeArray = (length:number) =>
@@ -85,7 +85,7 @@ export const
          // config
          {headers:{
             ...headerUser(),
-            "Content-Type": "multipart/form-data"
+            setContentType: "multipart/form-data"
          }}
       )
    }
