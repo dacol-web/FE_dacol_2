@@ -58,7 +58,7 @@ export const
    },
 
    sendJSON = function<T extends {} | []>(url:string, data:any) {
-      return API.post<T>(url, data, {headers:{setContentType:"application/json", ...headerUser()}})
+      return API.post<T>(url, data, {headers:{"Content-Type":"application/json", ...headerUser()}})
    },
 
    makeArray = (length:number) =>
@@ -85,7 +85,7 @@ export const
          // config
          {headers:{
             ...headerUser(),
-            setContentType: "multipart/form-data"
+            "Content-Type": "multipart/form-data"
          }}
       )
    }
